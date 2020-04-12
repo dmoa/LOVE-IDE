@@ -1,9 +1,12 @@
+#!/bin/sh
+
 cd ..
 
 LOVE_BINARIES=$(pwd)/LOVE/11.3
 project_path=$1
-platform=$2
-bits=$3
+project_name=$2
+platform=$3
+bits=$4
 
 lovefile() {
   mkdir -p releases
@@ -19,17 +22,17 @@ windows() {
   rm "$LOVE_BINARIES"/temp/game.love
   rm "$LOVE_BINARIES"/temp/love.exe
   cd "$LOVE_BINARIES"/temp/ || exit 1
-  zip -r "$project_path"/releases/"$PROJECT_NAME"windows-"$bits".zip .
+  zip -r "$project_path"/releases/"$project_name"windows-"$bits".zip .
   rm -rf "$LOVE_BINARIES"/temp
 }
 
 mac() {
-  rm -rf "$SCRIPT_PATH"/temp
-  cp -R "$SCRIPT_PATH"/mac "$SCRIPT_PATH"/temp
-  cp "$PROJECT_PATH"/releases/game.love "$SCRIPT_PATH"/temp/mac.app/Contents/Resources
-  cd "$SCRIPT_PATH"/temp || exit 1
-  zip -r -y "$PROJECT_PATH"/releases/"$PROJECT_NAME"_mac.zip . -x './releases/*' '.*'
-  rm -rf "$SCRIPT_PATH"/temp
+  rm -rf "$LOVE_BINARIES"/temp
+  cp -R "$LOVE_BINARIES"/mac "$LOVE_BINARIES"/temp
+  cp "$project_path"/releases/game.love "$LOVE_BINARIES"/temp/love.app/Contents/Resources
+  cd "$LOVE_BINARIES"/temp || exit 1
+  zip -r -y "$project_path"/releases/"$project_name"mac.zip . -x './releases/*' '.*'
+  rm -rf "$LOVE_BINARIES"/temp
 }
 
 linux() {
@@ -37,7 +40,7 @@ linux() {
   cp -R "$SCRIPT_PATH"/linux "$SCRIPT_PATH"/temp
   cp "$PROJECT_PATH"/releases/game.love "$SCRIPT_PATH"/temp/application
   cd "$SCRIPT_PATH"/temp || exit 1
-  zip -r "$PROJECT_PATH"/releases/"$PROJECT_NAME"_linux.zip .
+  zip -r "$PROJECT_PATH"/releases/"$project_name"_linux.zip .
   rm -rf "$SCRIPT_PATH"/temp
 }
 
@@ -46,3 +49,5 @@ mkdir -p releases
 
 lovefile
 $platform
+
+echo "DONE"
