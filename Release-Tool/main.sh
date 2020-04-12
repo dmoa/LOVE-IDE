@@ -10,8 +10,7 @@ bits=$4
 
 lovefile() {
   mkdir -p releases
-  "echo" "Converting project to .love file"
-  zip -r ./releases/game.love . -x './releases/*' '.*'
+  zip -r -1 -qq ./releases/game.love . -x './releases/*' '.*'
 }
 
 windows() {
@@ -22,7 +21,7 @@ windows() {
   rm "$LOVE_BINARIES"/temp/game.love
   rm "$LOVE_BINARIES"/temp/love.exe
   cd "$LOVE_BINARIES"/temp/ || exit 1
-  zip -r "$project_path"/releases/"$project_name"windows-"$bits".zip .
+  zip -r -1 -qq "$project_path"/releases/"$project_name"windows-"$bits".zip .
   rm -rf "$LOVE_BINARIES"/temp
 }
 
@@ -31,7 +30,7 @@ mac() {
   cp -R "$LOVE_BINARIES"/mac "$LOVE_BINARIES"/temp
   cp "$project_path"/releases/game.love "$LOVE_BINARIES"/temp/love.app/Contents/Resources
   cd "$LOVE_BINARIES"/temp || exit 1
-  zip -r -y "$project_path"/releases/"$project_name"mac.zip . -x './releases/*' '.*'
+  zip -r -y -1 -qq "$project_path"/releases/"$project_name"mac.zip . -x './releases/*' '.*'
   rm -rf "$LOVE_BINARIES"/temp
 }
 
@@ -50,4 +49,4 @@ mkdir -p releases
 lovefile
 $platform
 
-echo "DONE"
+exit 0
