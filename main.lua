@@ -1,4 +1,5 @@
 Object = require "Util/classic"
+range  = require "Util/range"
 
 local Window = require "Util/Window"
 local Colors = require "Util/Colors"

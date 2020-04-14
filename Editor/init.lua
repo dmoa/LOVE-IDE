@@ -1,1 +1,1 @@
-return require "Editor/src"
+return require "Editor/src/TextEditor"

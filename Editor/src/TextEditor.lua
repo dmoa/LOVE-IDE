@@ -9,21 +9,25 @@ function TextEditor:new(w, h)
 	self.fontSize = 20
 	self.font = love.graphics.newFont("Editor/src/FiraCode-Regular.ttf", self.fontSize)
 	self.mainText = love.graphics.newText(self.font, self.file[1])
+	self.lineNumbers = love.graphics.newText(self.font, "1")
 end
 
 function TextEditor:update(dt)
 	self.mainText:set(table.concat(self.file, "\n"))
-	print(#self.file)
+	self.lineNumbers:set(table.concat(range(#self.file), "\n"))
 end
 
 function TextEditor:draw(colors)
 	bg = colors.default[1]
 	textColor = colors.default[12]
+	lineNumColor = colors.default[2]
 
 	love.graphics.clear(colors:to_rgb(bg))
 
 	love.graphics.setColor(colors:to_rgb(textColor))
-	love.graphics.draw(self.mainText, 5, 5)
+	love.graphics.draw(self.mainText, 50, 15)
+	love.graphics.setColor(colors:to_rgb(lineNumColor))
+	love.graphics.draw(self.lineNumbers, 15, 15)
 end
 
 function TextEditor:textInput(t)
