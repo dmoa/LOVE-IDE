@@ -2,3 +2,5 @@
 
 -- project page?
 -- editor default open?
+
+require "Editor/main"
