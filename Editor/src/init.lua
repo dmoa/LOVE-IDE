@@ -1,4 +1,4 @@
-local Font = love.graphics.newFont("FiraCode-Regular.ttf")
+local Font = love.graphics.newFont("Editor/src/FiraCode-Regular.ttf")
 
 local TextEditor = {}
 TextEditor.mt = {__index = TextEditor}
