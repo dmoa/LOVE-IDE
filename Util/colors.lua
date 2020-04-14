@@ -1,8 +1,6 @@
-local Object = require "classic" -- temp
+local C = Object:extend()
 
-local Colors = Object:extend()
-
-function Colors:new()
+function C:new()
 	self.default = {
         "#2E3440", "#3B4252", "#434C5E", "#4C566A",
         "#D8DEE9", "#E5E9F0", "#ECEFF4", "#8FBCBB",
@@ -13,7 +11,7 @@ end
 
 -- to_rgb functions return all values 0->1
 
-function Colors:to_rgb (hex, _a)
+function C:to_rgb (hex, _a)
 	local r, g, b = hex:gsub('%#', ''):match('(..)(..)(..)') -- removes possible "#" and splits values
 	r = math.floor(tonumber(r, 16) / 255 * 100) / 100
 	g = math.floor(tonumber(g, 16) / 255 * 100) / 100
@@ -22,7 +20,7 @@ function Colors:to_rgb (hex, _a)
 	return r, g, b, a
 end
 
-function Colors:rrgb_to_rgb (_r, _g, _b, _a)
+function C:rrgb_to_rgb (_r, _g, _b, _a)
 	r = math.floor(_r / 255 * 100) / 100
 	g = math.floor(_g / 255 * 100) / 100
 	b = math.floor(_b / 255 * 100) / 100
@@ -31,4 +29,4 @@ function Colors:rrgb_to_rgb (_r, _g, _b, _a)
 	return r, g, b, a
 end
 
-return Colors
+return C

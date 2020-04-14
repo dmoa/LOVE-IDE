@@ -1,5 +1,3 @@
-local push = require "Util/push"
-
 local W = Object:extend()
 
 function W:new()
@@ -9,12 +7,10 @@ function W:new()
     self.fullscreen = false
     self.resizable = true
 
-    push:setupScreen(self.width * self.zoom, self.height * self.zoom, self.width, self.height,
-                    {fullscreen = false, resizable = true})
+    love.window.setMode(self.width, self.height, {fullscreen = self.fullscreen, resizable = self.resizable})
 end
 
 function W:resize(w, h)
-    push:resize(w, h)
 end
 
 return W

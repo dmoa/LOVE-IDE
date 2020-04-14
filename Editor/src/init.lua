@@ -1,28 +1,29 @@
 local TextEditor = Object:extend()
 
-local Font = love.graphics.newFont("Editor/src/FiraCode-Regular.ttf")
-
 function TextEditor:new(w, h)
 	self.cursor = {
 		pos = 1,
 		line = 1
 	}
 	self.file = {""}
-
-	return textEditor
+	self.fontSize = 20
+	self.font = love.graphics.newFont("Editor/src/FiraCode-Regular.ttf", self.fontSize)
+	self.mainText = love.graphics.newText(self.font, self.file[1])
 end
 
 function TextEditor:update(dt)
+	self.mainText:set(table.concat(self.file, "\n"))
+	print(#self.file)
 end
 
-function TextEditor:draw(...)
-	love.graphics.push("all")
-		love.graphics.clear(0, 0, 0, 0)
-		love.graphics.setFont(Font)
+function TextEditor:draw(colors)
+	bg = colors.default[1]
+	textColor = colors.default[12]
 
-		love.graphics.setColor(1, 1, 1, 1)
-		love.graphics.print(table.concat(self.file, "\n"))
-	love.graphics.pop()
+	love.graphics.clear(colors:to_rgb(bg))
+
+	love.graphics.setColor(colors:to_rgb(textColor))
+	love.graphics.draw(self.mainText, 5, 5)
 end
 
 function TextEditor:textInput(t)
@@ -42,10 +43,17 @@ function TextEditor:keyPressed(key)
 	end
 
 	if key == "backspace" then
-		self.cursor.pos = self.cursor.pos - 1
+		self.cursor.pos = self.cursor.pos > 1 and self.cursor.pos - 1 or 1
 		local line = self.file[self.cursor.line]
-        line = string.sub(line, 0, self.cursor.pos - 2) .. string.sub(line, self.cursor.pos + 1)
-        self.file[self.cursor.line] = line
+
+		if line == "" and self.cursor.line > 1 then
+			table.remove(self.file, self.cursor.line)
+			self.cursor.line = self.cursor.line - 1
+			self.cursor.pos = #self.file[self.cursor.line]
+		else
+        	line = string.sub(line, 0, #line - 1)
+			self.file[self.cursor.line] = line
+		end
 	end
 end
 

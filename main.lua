@@ -1,14 +1,19 @@
--- global class module
 Object = require "Util/classic"
 
-local Window = require "Util/window"
+local Window = require "Util/Window"
+local Colors = require "Util/Colors"
 local Editor = require "Editor"
 
 local window = Window()
 local editor = Editor()
+local colors = Colors()
+
+function love.load()
+    love.keyboard.setKeyRepeat(true)
+end
 
 function love.draw()
-    editor:draw()
+    editor:draw(colors)
 end
 
 function love.update(dt)
