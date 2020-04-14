@@ -1,4 +1,4 @@
-local TextEditor = require("src/textEditor")
+local TextEditor = require "Editor/src"
 
 local textEditor = TextEditor(love.graphics.getDimensions())
 
