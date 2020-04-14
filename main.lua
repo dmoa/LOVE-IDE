@@ -1,6 +1,28 @@
--- This is what is run first when LOVE-IDE is opened
+-- global class module
+Object = require "Util/classic"
 
--- project page?
--- editor default open?
+local Window = require "Util/window"
+local Editor = require "Editor"
 
-require "Editor/main"
+local window = Window()
+local editor = Editor()
+
+function love.draw()
+    editor:draw()
+end
+
+function love.update(dt)
+    editor:update(dt)
+end
+
+function love.keypressed(key)
+    editor:keyPressed(key)
+end
+
+function love.textinput(t)
+    editor:textInput(t)
+end
+
+function love.resize(w, h)
+    window:resize(w, h)
+end
