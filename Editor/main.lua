@@ -1,4 +1,4 @@
-local TextEditor = require("src.textEditor")
+local TextEditor = require("src/textEditor")
 
 local textEditor = TextEditor(love.graphics.getDimensions())
 
@@ -12,4 +12,12 @@ end
 
 function love.resize(w, h)
 	textEditor:resize(w, h)
+end
+
+function love.keypressed(key)
+    textEditor:keyPressed(key)
+end
+
+function love.textinput(t)
+    textEditor:textInput(t)
 end

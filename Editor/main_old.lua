@@ -102,7 +102,7 @@ function love.draw()
         love.graphics.print(str, drawPos, (line - 1) * 32 + 5)
         drawPos = drawPos + love.graphics.getFont():getWidth(str)
 
-        
+
     end
 
     for i, log in ipairs(logs) do

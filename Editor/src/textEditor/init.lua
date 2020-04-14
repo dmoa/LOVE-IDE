@@ -6,11 +6,12 @@ TextEditor.mt = {__index = TextEditor}
 function TextEditor.new(w, h)
 	local textEditor = setmetatable({
 		cursor = {
-			position = 1,
-			line     = 1,
+			pos = 1,
+			line = 1,
 		},
 
 		canvas = nil,
+		file = {""}
 	}, TextEditor.mt)
 
 	textEditor:__rebuildCanvas(w, h)
@@ -28,7 +29,6 @@ function TextEditor:__rebuildCanvas(w, h)
 end
 
 function TextEditor:update(dt)
-
 end
 
 function TextEditor:draw(...)
@@ -38,14 +38,30 @@ function TextEditor:draw(...)
 		love.graphics.setFont(Font)
 
 		love.graphics.setColor(1, 1, 1, 1)
-		love.graphics.print("Dab")
+		love.graphics.print(table.concat(self.file, "\n"))
 	love.graphics.pop()
 
 	love.graphics.draw(self.canvas, ...)
 end
 
-function TextEditor:textinput(t)
+function TextEditor:textInput(t)
 
+    local line = self.file[self.cursor.line]
+    line = string.sub(line, 1, self.cursor.pos - 1) .. t .. string.sub(line, self.cursor.pos)
+    self.file[self.cursor.line] = line
+
+	self.cursor.pos = self.cursor.pos + 1
+	-- for _, line in ipairs(self.file) do
+	-- 	print(line)
+	-- end
+	-- print()
+end
+
+function TextEditor:keyPressed(key)
+	if key == "return" then
+		self.cursor.line = self.cursor.line + 1
+		self.file[self.cursor.line] = ""
+	end
 end
 
 function TextEditor:resize(w, h)
@@ -55,4 +71,3 @@ end
 return setmetatable(TextEditor, {
 	__call = function(_, ...) return TextEditor.new(...) end,
 })
-
