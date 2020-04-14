@@ -29,6 +29,7 @@ function TextEditor:__rebuildCanvas(w, h)
 end
 
 function TextEditor:update(dt)
+	print(self.cursor.pos)
 end
 
 function TextEditor:draw(...)
@@ -51,16 +52,20 @@ function TextEditor:textInput(t)
     self.file[self.cursor.line] = line
 
 	self.cursor.pos = self.cursor.pos + 1
-	-- for _, line in ipairs(self.file) do
-	-- 	print(line)
-	-- end
-	-- print()
 end
 
 function TextEditor:keyPressed(key)
 	if key == "return" then
+		self.cursor.pos = 1
 		self.cursor.line = self.cursor.line + 1
 		self.file[self.cursor.line] = ""
+	end
+
+	if key == "backspace" then
+		self.cursor.pos = self.cursor.pos - 1
+		local line = self.file[self.cursor.line]
+        line = string.sub(line, 0, self.cursor.pos - 2) .. string.sub(line, self.cursor.pos + 1)
+        self.file[self.cursor.line] = line
 	end
 end
 
