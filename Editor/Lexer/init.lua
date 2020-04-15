@@ -63,20 +63,22 @@ end
 function L:getColoredText(file)
     local coloredText = {}
     for _, line in ipairs(file) do
-        for word in line:gmatch("%S+") do
-            local type = self.lookup[word] or "other"
-            table.insert(coloredText, self.syntaxColors[type])
-            table.insert(coloredText, word)
-            -- for loop, line -> table of words
-            -- adding back the empty spaces for "rendering"
-            table.insert(coloredText, self.syntaxColors[type])
-            table.insert(coloredText, " ")
+        if line ~= "" then
+            for word in line:gmatch("%S+") do
+                local type = self.lookup[word] and self.lookup[word] or "other"
+                table.insert(coloredText, self.syntaxColors[type])
+                table.insert(coloredText, word)
+                -- for loop, line -> table of words
+                -- adding back the empty spaces for "rendering"
+                table.insert(coloredText, self.syntaxColors[type])
+                table.insert(coloredText, " ")
+            end
         end
-        table.insert(coloredText, self.syntaxColors[type])
+        table.insert(coloredText, self.syntaxColors["other"])
         table.insert(coloredText, "\n")
     end
 
-    return coloredText
+    return #coloredText > 2 and coloredText or ""
 end
 
 return L
