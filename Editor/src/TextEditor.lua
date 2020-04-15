@@ -1,6 +1,9 @@
+local Lexer = require "Editor/Lexer"
+
 local TextEditor = Object:extend()
 
-function TextEditor:new(w, h)
+function TextEditor:new()
+	self.lexer = Lexer()
 	self.cursor = {
 		pos = 1,
 		line = 1
@@ -13,18 +16,19 @@ function TextEditor:new(w, h)
 end
 
 function TextEditor:update(dt)
-	self.mainText:set(table.concat(self.file, "\n"))
+	local coloredText = self.lexer:getColoredText(self.file)
+	self.mainText:set(coloredText)
 	self.lineNumbers:set(table.concat(range(#self.file), "\n"))
 end
 
-function TextEditor:draw(colors)
+function TextEditor:draw()
 	bg = colors.default[1]
-	textColor = colors.default[12]
-	lineNumColor = colors.default[2]
+	textColor = colors.default[7]
+	lineNumColor = colors.default[4]
 
 	love.graphics.clear(colors:to_rgb(bg))
 
-	love.graphics.setColor(colors:to_rgb(textColor))
+	love.graphics.setColor(colors:to_rgb(textColor, false))
 	love.graphics.draw(self.mainText, 50, 15)
 	love.graphics.setColor(colors:to_rgb(lineNumColor))
 	love.graphics.draw(self.lineNumbers, 15, 15)

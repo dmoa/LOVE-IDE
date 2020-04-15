@@ -2,7 +2,7 @@ local L = Object:extend()
 
 function L:new()
     self.lookup = {
-        ["and"]      = "name",
+        ["and"]      = "keyword",
         ["break"]    = "keyword",
         ["do"]       = "keyword",
         ["else"]     = "keyword",
@@ -48,18 +48,35 @@ function L:new()
         [","]        = "operator",
         ["."]        = "operator",
         [".."]       = "operator",
-        ["..."]      = "operator"
+        ["..."]      = "operator",
+        ["--"]       = "comment"
+    }
+    self.syntaxColors = {
+        ["keyword"]  = colors:to_rgb(colors.default[8], true),
+        ["operator"] = colors:to_rgb(colors.default[11], true),
+        ["comment"]  = colors:to_rgb(colors.default[10], true),
+        ["other"]    = colors:to_rgb(colors.default[7], true)
     }
 end
 
 -- get syntax takes table of lines -> Editor stores table of lines
-function L:getSyntax(lines)
-    local syntax = {}
-
-    for line in ipairs(lines) do
+function L:getColoredText(file)
+    local coloredText = {}
+    for _, line in ipairs(file) do
+        for word in line:gmatch("%S+") do
+            local type = self.lookup[word] or "other"
+            table.insert(coloredText, self.syntaxColors[type])
+            table.insert(coloredText, word)
+            -- for loop, line -> table of words
+            -- adding back the empty spaces for "rendering"
+            table.insert(coloredText, self.syntaxColors[type])
+            table.insert(coloredText, " ")
+        end
+        table.insert(coloredText, self.syntaxColors[type])
+        table.insert(coloredText, "\n")
     end
 
-    return syntax
+    return coloredText
 end
 
 return L

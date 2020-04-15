@@ -1,13 +1,13 @@
-Object = require "Util/classic"
-range  = require "Util/range"
+Object       = require "Util/classic"
+range        = require "Util/Range"
 
-local Window = require "Util/Window"
 local Colors = require "Util/Colors"
+local Window = require "Util/Window"
 local Editor = require "Editor"
 
 local window = Window()
+      colors = Colors()
 local editor = Editor()
-local colors = Colors()
 
 function love.load()
     love.keyboard.setKeyRepeat(true)

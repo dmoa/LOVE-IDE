@@ -11,13 +11,12 @@ end
 
 -- to_rgb functions return all values 0->1
 
-function C:to_rgb (hex, _a)
+function C:to_rgb (hex, returnTable)
 	local r, g, b = hex:gsub('%#', ''):match('(..)(..)(..)') -- removes possible "#" and splits values
 	r = math.floor(tonumber(r, 16) / 255 * 100) / 100
 	g = math.floor(tonumber(g, 16) / 255 * 100) / 100
 	b = math.floor(tonumber(b, 16) / 255 * 100) / 100
-	a = _a and _a / 100 or 1
-	return r, g, b, a
+	return returnTable and {r, g, b, 1} or r, g, b, 1
 end
 
 function C:rrgb_to_rgb (_r, _g, _b, _a)
