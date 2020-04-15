@@ -3,11 +3,11 @@ local Lexer = require("luacheck.lexer")
 local CheckState = require("luacheck.check_state")
 local Decoder = require("luacheck.decoder")
 
-local Class = require("lib.middleclass")
+local Object = require("lib.classic")
 
-local TextEditor = Class("TextEditor")
+local TextEditor = Object:extend()
 
-function TextEditor:initialize()
+function TextEditor:new()
 	self.cursor = {
 		position = 1,
 		line     = 1,
