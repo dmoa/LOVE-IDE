@@ -1,34 +1,27 @@
-Object       = require "Util/classic"
-range        = require "Util/Range"
+local TextEditor = require("src.textEditor")
 
-local Colors = require "Util/Colors"
-local Window = require "Util/Window"
-local Editor = require "Editor"
-
-local window = Window()
-      colors = Colors()
-local editor = Editor()
+local textEditor = TextEditor()
 
 function love.load()
     love.keyboard.setKeyRepeat(true)
 end
 
 function love.draw()
-    editor:draw(colors)
+    textEditor:draw()
 end
 
 function love.update(dt)
-    editor:update(dt)
+    textEditor:update(dt)
 end
 
 function love.keypressed(key)
-    editor:keyPressed(key)
+    textEditor:keypressed(key)
 end
 
 function love.textinput(t)
-    editor:textInput(t)
+    textEditor:textInput(t)
 end
 
 function love.resize(w, h)
-    window:resize(w, h)
+    textEditor:resize(w, h)
 end
