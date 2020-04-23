@@ -1,8 +1,8 @@
 local TextEditor = require "src.textEditor"
-local Window = require "src.util.Window"
+local Window     = require "src.util.Window"
 
 local textEditor = TextEditor()
-local window = Window()
+local window     = Window()
 
 function love.load()
     love.keyboard.setKeyRepeat(true)
@@ -25,5 +25,5 @@ function love.textinput(t)
 end
 
 function love.resize(w, h)
-    textEditor:resize(w, h)
+    window:resize(w, h)
 end

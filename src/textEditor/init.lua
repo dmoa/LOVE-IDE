@@ -64,8 +64,6 @@ function TextEditor:draw()
             type = SyntaxLookup.get(token.token) or type
         end
 
-        print(token.token.. " " ..type)
-
         local color = SyntaxColors.get(type)
         love.graphics.setColor(color)
 
@@ -151,7 +149,7 @@ function TextEditor:keypressed(key)
 			self.file[self.cursor.line] = line
 		end
     end
-    
+
     self:lint()
 end
 
