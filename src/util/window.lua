@@ -1,3 +1,5 @@
+local Object = require "lib.classic"
+
 local W = Object:extend()
 
 function W:new()

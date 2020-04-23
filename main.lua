@@ -1,6 +1,8 @@
-local TextEditor = require("src.textEditor")
+local TextEditor = require "src.textEditor"
+local Window = require "src.util.Window"
 
 local textEditor = TextEditor()
+local window = Window()
 
 function love.load()
     love.keyboard.setKeyRepeat(true)
