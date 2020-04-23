@@ -8,6 +8,10 @@ Colors.default = {
 }
 
 function Colors.HEXToRGB(hex, returnTable)
+	if (returnTable ~= false) then
+		returnTable = true
+	end
+
 	local r, g, b = hex:gsub('%#', ''):match('(..)(..)(..)')
 	r = math.floor(tonumber(r, 16) / 255 * 100) / 100
 	g = math.floor(tonumber(g, 16) / 255 * 100) / 100

@@ -72,4 +72,5 @@ function SyntaxLookup.get(tokenName)
     return SyntaxLookup.lookup[tokenName]
 end
 
+SyntaxLookup.buildLookupTable()
 return SyntaxLookup

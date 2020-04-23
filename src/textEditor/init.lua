@@ -1,9 +1,12 @@
-local Luacheck = require("luacheck")
-local Lexer = require("luacheck.lexer")
+local Luacheck   = require("luacheck")
+local Lexer      = require("luacheck.lexer")
 local CheckState = require("luacheck.check_state")
-local Decoder = require("luacheck.decoder")
+local Decoder    = require("luacheck.decoder")
 
 local Class = require("lib.middleclass")
+
+local SyntaxColors = require("src.textEditor.syntaxColors")
+local SyntaxLookup = require("src.textEditor.syntaxLookup")
 
 local TextEditor = Class("TextEditor")
 
@@ -50,19 +53,22 @@ function TextEditor:draw()
     local drawPos = 0
 
     for i, token in ipairs(self.tokens) do
-        --[=[
-        local type = self.colors["text"]
+        local type = "default"
 
         if (token.token == nil) then
             type = "string"
+        elseif (token.token == "name") then
+            type = "name"
+        elseif (token.token == "number") then
+            type = "number"
+        else
+            type = SyntaxLookup.get(token.token) or type
         end
-        if (self.lookup[token.token]) then
-            type = self.lookup[token.token]
-        end
-        ]=]
 
-        --local color = self.colors[type]
-        --love.graphics.setColor(color)
+        print(token.token.. " " ..type)
+
+        local color = SyntaxColors.get(type)
+        love.graphics.setColor(color)
 
         local cStartPos = startPos
         if (token.line ~= currLine) then
@@ -145,7 +151,9 @@ function TextEditor:keypressed(key)
             line = string.sub(line, 0, #line - 1)
 			self.file[self.cursor.line] = line
 		end
-	end
+    end
+    
+    self:lint()
 end
 
 function TextEditor:lint()
