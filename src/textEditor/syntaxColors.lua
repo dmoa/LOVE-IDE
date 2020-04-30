@@ -10,7 +10,8 @@ local SyntaxColors = {
     ["operator"] = Colors.HEXToRGB("#ECEFF4"),
     ["string"]   = Colors.HEXToRGB("#A3BE8C"),
     ["name"]     = Colors.HEXToRGB("#BF616A"),
-    ["number"]   = Colors.HEXToRGB("#A3BE8C")
+    ["number"]   = Colors.HEXToRGB("#A3BE8C"),
+    ["comment"]  = Colors.HEXToRGB("#4C556A"),
 }
 
 function SyntaxColors.get(tokenKey)

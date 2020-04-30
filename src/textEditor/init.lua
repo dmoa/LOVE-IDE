@@ -7,6 +7,7 @@ local Object = require("lib.classic")
 
 local SyntaxLookup = require("src.textEditor.syntaxLookup")
 local SyntaxColors = require("src.textEditor.syntaxColors")
+
 local TextEditor = Object:extend()
 
 function TextEditor:new()
@@ -22,8 +23,8 @@ function TextEditor:new()
     self.letterSpace = 2
 	self.font = love.graphics.newFont("assets/fonts/FiraCode-Regular.ttf", self.fontSize)
 
-    self.mainText = love.graphics.newText(self.font, self.file[1])
-	self.lineNumbers = love.graphics.newText(self.font, "1")
+    --self.mainText = love.graphics.newText(self.font, self.file[1])
+	--self.lineNumbers = love.graphics.newText(self.font, "1")
 end
 
 function TextEditor:update(dt)
@@ -55,6 +56,8 @@ function TextEditor:draw()
             type = "name"
         elseif (token.token == "number") then
             type = "number"
+        elseif (token.token == "short_comment" or token.token == "long_comment") then
+            type = "comment"
         else
             type = SyntaxLookup.get(token.token) or type
         end
