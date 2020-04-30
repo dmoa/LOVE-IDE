@@ -18,7 +18,8 @@ function TextEditor:new()
     self.tokens = {}
     self.logs = {}
 
-	self.fontSize = 32
+    self.fontSize = 32
+    self.letterSpace = 2
 	self.font = love.graphics.newFont("assets/fonts/FiraCode-Regular.ttf", self.fontSize)
 
     self.mainText = love.graphics.newText(self.font, self.file[1])
@@ -26,15 +27,9 @@ function TextEditor:new()
 end
 
 function TextEditor:update(dt)
-    --[=[
-	local coloredText = self.lexer:getColoredText(self.file)
-	self.mainText:set(coloredText)
-    self.lineNumbers:set(table.concat(range(#self.file), "\n"))
-    ]=]
 end
 
 function TextEditor:draw()
-    love.graphics.push("all")
 
     love.graphics.setFont(self.font)
 
@@ -81,30 +76,23 @@ function TextEditor:draw()
         local str = src:sub(cStartPos, endPos - 1)
 
         startPos = token.pos
-
         love.graphics.print(str, drawPos, (line - 1) * 34 + 5)
+
         drawPos = drawPos + love.graphics.getFont():getWidth(str)
-
-
     end
 
     for i, log in ipairs(self.logs) do
         love.graphics.print(log, 5, (i - 1) * 34 + 150)
     end
 
-    love.graphics.pop()
-    --[=[
-	bg = colors.default[1]
-	textColor = colors.default[7]
-	lineNumColor = colors.default[4]
+    self:drawCursor()
 
-	love.graphics.clear(colors:to_rgb(bg))
+end
 
-	love.graphics.setColor(colors:to_rgb(textColor, false))
-	love.graphics.draw(self.mainText, 50, 15)
-	love.graphics.setColor(colors:to_rgb(lineNumColor))
-    love.graphics.draw(self.lineNumbers, 15, 15)
-    ]=]
+function TextEditor:drawCursor()
+    local x = (self.cursor.position - 1) * self.fontSize
+    local y = (self.cursor.line - 1) * 34 + 5
+    love.graphics.print("|", x, y)
 end
 
 function TextEditor:textInput(t)
@@ -119,14 +107,6 @@ function TextEditor:textInput(t)
     self.cursor.position = self.cursor.position + 1
 
     self:lint()
-
-    --[=[
-    local line = self.file[self.cursor.line]
-    line = string.sub(line, 1, self.cursor.pos - 1) .. t .. string.sub(line, self.cursor.pos)
-    self.file[self.cursor.line] = line
-
-    self.cursor.pos = self.cursor.pos + 1
-    ]=]
 end
 
 function TextEditor:keypressed(key)
